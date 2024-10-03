@@ -10,11 +10,11 @@ def get_ebay_products():
     scraping = {"products": result}
     return jsonify(scraping)
 
-@app.route("/amazon")
-def get_amazon_products():
-    result = AmazonScraper("microwave", 1).scrape()
-    scraping = {"products": result}
-    return jsonify(scraping)
+# @app.route("/amazon")
+# def get_amazon_products():
+#     result = AmazonScraper("microwave", 1).scrape()
+#     scraping = {"products": result}
+#     return jsonify(scraping)
 
 
 if __name__ == "__main__":

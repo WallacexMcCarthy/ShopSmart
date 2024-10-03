@@ -1,4 +1,7 @@
 import React, {useState, useEffect} from 'react'
+import SignUpForm from './SignUpForm'
+import LoginForm from './Login'
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
 
 function App(){
   const [column, setColumn] = useState([])
@@ -19,27 +22,12 @@ function App(){
 
   return(
     <div>
-      <table className='table'>
-        <thead>
-          <tr>
-            {column.map((c,i) => (
-              <th key = {i}>{c}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {
-            records.map((record, i) =>(
-              <tr key = {i}>
-                <td>{record.id}</td>
-                <td>{record.title}</td>
-                <td>{record.price}</td>
-                <td>{record.link}</td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
+      <BrowserRouter>
+      <Routes>
+        <Route path = '/signup' element = {<SignUpForm />}> </Route>
+        <Route path = '/login' element = {<LoginForm />}> </Route>
+      </Routes>
+      </BrowserRouter>
     </div>
   )
 }
