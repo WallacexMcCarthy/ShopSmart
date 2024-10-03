@@ -6,7 +6,7 @@ from amazon_scraper import AmazonScraper
 
 @app.route("/ebay")
 def get_ebay_products():
-    result = EbayScraper("microwave", 1).scrape()
+    result = EbayScraper("computer", 1).scrape()
     scraping = {"products": result}
     return jsonify(scraping)
 
