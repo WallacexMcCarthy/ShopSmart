@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from ebay_scraper import EbayScraper
-from amazon_scraper import AmazonScraper
 
 app = Flask(__name__)
 
@@ -11,7 +10,8 @@ CORS(app)
 def get_ebay_products():
     if request.method == 'POST':
         product = request.json['product']
-        result = EbayScraper(str(product), 1).scrape()
+        pages = request.json['pages']
+        result = EbayScraper(str(product), int(pages)).scrape()
         scraping = {"products": result}
         return jsonify(scraping)
     else:

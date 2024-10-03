@@ -5,16 +5,16 @@ const HomePage = () => {
   const [column, setColumn] = useState([])
   const [records, setRecords] = useState([])
   const [product, setProduct] = useState([])
+  const [pages,  setPages] = useState([])
   
   const lookupProduct = async (e) => {
     e.preventDefault()
-    
     try{
       console.log("fetching port /ebay")
       fetch('/ebay', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({product})
+        body: JSON.stringify({ product: product, pages: pages }),  
       }).then((res) => {
         return res.json(); 
       })
@@ -38,6 +38,10 @@ const HomePage = () => {
             <label htmlFor='product'>
               Lookup Product:
               <input type= "text" onChange={(e) => setProduct(e.target.value)} />
+            </label>
+            <label htmlFor='pages'>
+              Number of Pages to look through:
+              <input type= "text" onChange={(e) => setPages(e.target.value)} />
             </label>
             <button type = 'submit'> Lookup </button>
             </form> 
