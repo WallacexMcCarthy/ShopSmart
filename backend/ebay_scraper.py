@@ -1,6 +1,5 @@
 import requests 
 from bs4 import BeautifulSoup
-import json
 
 class EbayScraper():
     current_page = 1
