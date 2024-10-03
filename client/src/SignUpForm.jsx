@@ -12,6 +12,7 @@ const SignUpForm = () => {
         e.preventDefault()
         try{
             await createUserWithEmailAndPassword(auth, email, password)
+            console.log(email)
             console.log("Account Created")
 
         } catch(error){

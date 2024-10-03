@@ -5,22 +5,6 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import HomePage from './Home'
 
 function App(){
-  const [column, setColumn] = useState([])
-  const [records, setRecords] = useState([])
-  useEffect(() => {
-    fetch("/ebay").then(
-      res => res.json()
-    ).then(
-      data => {
-        setColumn(Object.keys(data.products[0]))
-        setRecords(data.products)
-        console.log(column)
-        console.log(records)
-      
-      }
-    )
-  }, [])
-
   return(
     <div>
       <BrowserRouter>
