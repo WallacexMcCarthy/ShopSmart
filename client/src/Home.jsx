@@ -14,21 +14,16 @@ const HomePage = () => {
       fetch('/ebay', {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({"product": product})
-      }).then(() => {
-        console.log("POST: " + product)
+        body: JSON.stringify({product})
+      }).then((res) => {
+        return res.json(); 
       })
-      fetch("/ebay").then(
-        res => res.json()
-      ).then(
-        data => {
-          setColumn(Object.keys(data.products[0]))
+      .then((data) => {
+        setColumn(Object.keys(data.products[0]))
           setRecords(data.products)
           console.log(column)
           console.log(records)
-        }
-      )
-      console.log(product)
+      })
     } catch(error){
       console.log(error)
     }

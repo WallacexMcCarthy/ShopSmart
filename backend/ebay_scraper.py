@@ -30,7 +30,7 @@ class EbayScraper():
                 for product in products:
                     breakinto = product.find("div", class_ = "s-item__info clearfix")
                     product_details = {}
-                    product_details['id'] = str(self.id)
+                    product_details['id'] = self.id
                     product_details['title'] = breakinto.find("span").text
                     product_details['price'] = breakinto.find("span", class_ = "s-item__price").text
                     product_details['link'] = breakinto.find("a")["href"]
