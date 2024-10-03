@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import SignUpForm from './SignUpForm'
 import LoginForm from './Login'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import HomePage from './Pages/Home'
 
 function App(){
   const [column, setColumn] = useState([])
@@ -26,6 +27,7 @@ function App(){
       <Routes>
         <Route path = '/signup' element = {<SignUpForm />}> </Route>
         <Route path = '/login' element = {<LoginForm />}> </Route>
+        <Route path = '/home' element = {<HomePage />}> </Route>
       </Routes>
       </BrowserRouter>
     </div>
