@@ -13,11 +13,10 @@ def get_ebay_products():
         pages = request.json['pages']
         result = EbayScraper(str(product), int(pages)).scrape()
         
-        # Save the result in a dynamic collection (based on the product)
-        scraping = {str(product): result }  # Include both keys
+        scraping = {str(product): result }  
         
         print(scraping)
-        return jsonify(scraping)  # Return both for React to use and Firebase to save
+        return jsonify(scraping) 
     
     else:
         result = EbayScraper("microwave", 1).scrape()

@@ -5,7 +5,6 @@ import { collection, addDoc } from 'firebase/firestore';
 
 
 const HomePage = () => {
-  const [data, setData] = useState([])
   const [column, setColumns] = useState([])
   const [records, setRecords] = useState([])
   const [product, setProduct] = useState([])
@@ -41,7 +40,6 @@ const lookupProduct = async (e) => {
     const products = data[productKey]; 
 
     if (Array.isArray(products) && products.length > 0) {
-      setData(data); 
       setColumns(Object.keys(products[0]));  
       setRecords(products);  
       saveDataToFirestore(products, product);  
