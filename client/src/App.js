@@ -4,10 +4,12 @@ import LoginForm from './Login'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import HomePage from './Home'
 import HistoryPage from './History'
+import Navbar from './Components/Navbar'
 
 function App(){
   return(
     <div>
+      < Navbar />
       <BrowserRouter>
       <Routes>
         <Route path = '/signup' element = {<SignUpForm />}> </Route>

@@ -5,7 +5,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from './firebase'; 
 
 const HistoryPage = () => {
-  const [collections, setCollections] = useState(['microwave']);
+  const [collections, setCollections] = useState(['Arc Crazy Horse Leather Platform']);
   const [selectedCollection, setSelectedCollection] = useState(null);
   const [productCollections, setProductCollections] = useState([]);
 
@@ -39,9 +39,9 @@ const HistoryPage = () => {
       <h2>Available Collections</h2>
       <ul>
         {collections.map((collectionName) => (
-          <li key={collectionName} onClick={() => handleCollectionClick(collectionName)}>
+          <button className='collection-button' onClick={() => handleCollectionClick(collectionName)}>
             {collectionName}
-          </li>
+          </button>
         ))}
       </ul>
 
