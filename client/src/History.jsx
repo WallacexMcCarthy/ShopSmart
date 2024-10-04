@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
+import './index.css'
 import { db, coll } from './firebase'; 
 
 const HistoryPage = () => {
@@ -60,9 +61,9 @@ const HistoryPage = () => {
   return (
     <div className='history-container'>
       <h2>Available Collections</h2>
-      <ul>
+      <ul className='collection-buttons'>
         {collections.map((collectionName) => (
-          <button className='collection-button' onClick={() => handleCollectionClick(collectionName)}>
+          <button onClick={() => handleCollectionClick(collectionName)}>
             {collectionName}
           </button>
         ))}

@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { db } from './firebase'; 
-import { collection, addDoc } from 'firebase/firestore'; 
+import { collection, addDoc, getDocs } from 'firebase/firestore'; 
+import './index.css'
 
 
 
@@ -9,7 +10,25 @@ const HomePage = () => {
   const [records, setRecords] = useState([])
   const [product, setProduct] = useState([])
   const [pages,  setPages] = useState([])
+  const [collections, setCollections] = useState([]);
 
+  const fetchMetadata = async () => {
+    try {
+      const metadataRef = collection(db, 'metadata');
+      const snapshot = await getDocs(metadataRef);
+
+      if (snapshot.empty) {
+        console.log("No documents found in metadata collection.");
+        return []; 
+      }
+
+      const metadataNames = snapshot.docs.map(doc => doc.data().productName);
+      console.log("Fetched product names:", metadataNames); 
+      setCollections(metadataNames); 
+    } catch (error) {
+      console.error("Error fetching metadata from Firestore: ", error);
+    }
+  };
 
   const saveDataToFirestore = async (products, productName) => {
     try {
@@ -19,12 +38,19 @@ const HomePage = () => {
         await addDoc(collectionRef, product);  
       }
       console.log("Products successfully saved to Firestore under collection:", productName);
-  
-      // Save product name to the metadata collection
+    
+      // Check if product name already exists in the metadata collection
       const metadataRef = collection(db, 'metadata');
-      await addDoc(metadataRef, { productName });
+      const snapshot = await getDocs(metadataRef);
+      const existingNames = snapshot.docs.map(doc => doc.data().productName);
   
-      console.log("Product name successfully saved to metadata collection.");
+      // Only add the product name if it does not exist
+      if (!existingNames.includes(productName)) {
+        await addDoc(metadataRef, { productName });
+        console.log("Product name successfully saved to metadata collection.");
+      } else {
+        console.log("Product name already exists in metadata collection. Skipping save.");
+      }
     } catch (error) {
       console.error("Error saving products or metadata to Firestore: ", error);
     }
@@ -88,7 +114,9 @@ const lookupProduct = async (e) => {
                 <td>{record.id}</td>
                 <td>{record.title}</td>
                 <td>{record.price}</td>
-                <td>{record.link}</td>
+                <td>
+                  <a href={record.link} target=" blank" rel="noopener noreferrer">Link</a>
+                </td>
               </tr>
             ))
           }

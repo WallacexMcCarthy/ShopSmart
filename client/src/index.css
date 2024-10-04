@@ -12,6 +12,33 @@ body{
     background-size: cover;
     background-position: center;
     min-height: 100vh;
+    padding: 40px;
+}
+
+/* Styling for History Page */
+
+.history-container{
+    padding: 20px;
+}
+.history-container ul{
+    padding: 10px;
+}
+
+.history-container button{
+    margin: 20px;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.history-container button:hover{
+    background-color: blue;
+    outline: 1px solid blueviolet;
+
 }
 
 /* Styling for Signup and Login*/
@@ -59,3 +86,79 @@ body{
 .signup-form button:hover{
     background-color: #27ae60;
 }
+
+/* home page styling */
+.home-container {
+    max-width: 800px; /* Maximum width of the container */
+    margin: 0 auto;   /* Center the container */
+    padding: 20px;    /* Padding around the container */
+    background-color: #f9f9f9; /* Light background color */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  
+  .lookup-product {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack elements vertically */
+    margin-bottom: 20px; /* Margin below the form */
+  }
+  
+  .lookup-product h2 {
+    margin-bottom: 15px; /* Space below the heading */
+    color: #333; /* Darker text color */
+  }
+  
+  .lookup-product label {
+    margin-bottom: 10px; /* Space below labels */
+    font-weight: bold; /* Bold text for labels */
+  }
+  
+  .lookup-product input {
+    padding: 10px; /* Padding inside input fields */
+    margin-left: 10px;
+    margin-bottom: 15px; /* Space below input fields */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 16px; /* Font size for input */
+  }
+  
+  .lookup-product button {
+    padding: 10px 15px; /* Padding for the button */
+    background-color: #007bff; /* Button background color */
+    color: white; /* Button text color */
+    border: none; /* Remove default border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth background transition */
+  }
+  
+  .lookup-product button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  .display_products {
+    width: 100%; /* Full width of the table */
+    border-collapse: collapse; /* Collapse borders */
+    margin-top: 20px; /* Space above the table */
+    overflow-x: auto; /* Enable horizontal scrolling if necessary */
+  }
+  
+  .table-container {
+    overflow-x: auto; /* Allow horizontal scrolling */
+    margin-top: 20px; /* Space above the container */
+  }
+  
+  .display_products th, .display_products td {
+    border: 1px solid #ddd; /* Light border for table cells */
+    padding: 10px; /* Padding inside table cells */
+    text-align: center; /* Align text to the left */
+    min-width: 150px; /* Minimum width for cells to prevent shrinking */
+  }
+  
+  .display_products tr:nth-child(even) {
+    background-color: #f2f2f2; /* Zebra stripe effect for rows */
+  }
+  
+  .display_products tr:hover {
+    background-color: #e1e1e1; /* Light gray on row hover */
+  }
