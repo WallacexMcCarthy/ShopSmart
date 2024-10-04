@@ -11,18 +11,24 @@ const HomePage = () => {
   const [pages,  setPages] = useState([])
 
 
-const saveDataToFirestore = async (products, productName) => {
-  try {
-    const collectionRef = collection(db, productName);
-
-    for (const product of products) {
-      await addDoc(collectionRef, product);  
+  const saveDataToFirestore = async (products, productName) => {
+    try {
+      // Save products to the product-specific collection
+      const collectionRef = collection(db, productName);
+      for (const product of products) {
+        await addDoc(collectionRef, product);  
+      }
+      console.log("Products successfully saved to Firestore under collection:", productName);
+  
+      // Save product name to the metadata collection
+      const metadataRef = collection(db, 'metadata');
+      await addDoc(metadataRef, { productName });
+  
+      console.log("Product name successfully saved to metadata collection.");
+    } catch (error) {
+      console.error("Error saving products or metadata to Firestore: ", error);
     }
-    console.log("Products successfully saved to Firestore under collection:", productName);
-  } catch (error) {
-    console.error("Error saving products to Firestore: ", error);
-  }
-};
+  };
 
 const lookupProduct = async (e) => {
   e.preventDefault();

@@ -1,7 +1,7 @@
-// Import the functions you need from the SDKs you need
+// Import the functions you need from the SDKs
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";  // Import Firestore
+import { getFirestore, doc, getDoc } from "firebase/firestore";  // Import Firestore and related functions
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -18,5 +18,30 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);  // Initialize Firestore
 
+// Function to fetch collection names from the "metadata/collections" document
+const fetchCollectionNames = async () => {
+  try {
+    const docRef = doc(db, 'metadata', 'collections'); // Reference to the metadata document
+    const docSnap = await getDoc(docRef);
+    
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      const collectionNames = data.collectionNames || [];  // Fetch the collection names
+      console.log("Collection names:", collectionNames);
+      return collectionNames;
+    } else {
+      console.log("No metadata document found");
+      return [];
+    }
+  } catch (error) {
+    console.error("Error fetching collection names: ", error);
+    return [];
+  }
+};
+
+// Fetch collection names and store them in a constant
+const coll = await fetchCollectionNames(); // Wait for the names to be fetched
+console.log("Fetched collections:", coll);
+
 // Export authentication and Firestore instances
-export { auth, db };
+export { auth, db, coll};

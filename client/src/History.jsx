@@ -2,12 +2,32 @@
 
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
-import { db } from './firebase'; 
+import { db, coll } from './firebase'; 
 
 const HistoryPage = () => {
-  const [collections, setCollections] = useState(['Arc Crazy Horse Leather Platform']);
+  const [collections, setCollections] = useState([]);
   const [selectedCollection, setSelectedCollection] = useState(null);
   const [productCollections, setProductCollections] = useState([]);
+
+  
+  const fetchMetadata = async () => {
+    try {
+      const metadataRef = collection(db, 'metadata');
+      const snapshot = await getDocs(metadataRef);
+
+      if (snapshot.empty) {
+        console.log("No documents found in metadata collection.");
+        return []; // Return an empty array if no documents are found
+      }
+
+      // Extract the productName field from each document and map it to an array
+      const metadataNames = snapshot.docs.map(doc => doc.data().productName);
+      console.log("Fetched product names:", metadataNames); // Log the product names
+      setCollections(metadataNames);  // Set the array of names to state
+    } catch (error) {
+      console.error("Error fetching metadata from Firestore: ", error);
+    }
+  };
 
   const fetchProductsFromFirestore = async (productName) => {
     try {
@@ -33,6 +53,10 @@ const HistoryPage = () => {
     const products = await fetchProductsFromFirestore(collectionName);
     setProductCollections(products);
   };
+
+  useEffect(() => {
+    fetchMetadata();
+  }, []);
 
   return (
     <div className='history-container'>
