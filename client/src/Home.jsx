@@ -1,33 +1,57 @@
 import React, {useState, useEffect} from 'react'
+import { db } from './firebase'; 
+import { collection, addDoc } from 'firebase/firestore'; 
+
 
 
 const HomePage = () => {
-  const [column, setColumn] = useState([])
+  const [data, setData] = useState([])
+  const [column, setColumns] = useState([])
   const [records, setRecords] = useState([])
   const [product, setProduct] = useState([])
   const [pages,  setPages] = useState([])
-  
-  const lookupProduct = async (e) => {
-    e.preventDefault()
-    try{
-      console.log("fetching port /ebay")
-      fetch('/ebay', {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ product: product, pages: pages }),  
-      }).then((res) => {
-        return res.json(); 
-      })
-      .then((data) => {
-        setColumn(Object.keys(data.products[0]))
-          setRecords(data.products)
-          console.log(column)
-          console.log(records)
-      })
-    } catch(error){
-      console.log(error)
+
+
+const saveDataToFirestore = async (products, productName) => {
+  try {
+    const collectionRef = collection(db, productName);
+
+    for (const product of products) {
+      await addDoc(collectionRef, product);  
     }
+    console.log("Products successfully saved to Firestore under collection:", productName);
+  } catch (error) {
+    console.error("Error saving products to Firestore: ", error);
   }
+};
+
+const lookupProduct = async (e) => {
+  e.preventDefault();
+  try {
+    console.log('Fetching from /ebay');
+
+    const res = await fetch('/ebay', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ product, pages }),
+    });
+    const data = await res.json();
+
+    const productKey = Object.keys(data)[0]; 
+    const products = data[productKey]; 
+
+    if (Array.isArray(products) && products.length > 0) {
+      setData(data); 
+      setColumns(Object.keys(products[0]));  
+      setRecords(products);  
+      saveDataToFirestore(products, product);  
+    } else {
+      console.log('No products found or invalid data format.');
+    }
+  } catch (error) {
+    console.error('Error fetching data: ', error);
+  }
+};
   useEffect(() => {
     
   }, [])
