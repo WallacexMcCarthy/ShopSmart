@@ -12,9 +12,15 @@
 }
 
 .logo{
+    background: url('./ShopSmartLogo.png') no-repeat;
+    background-size: cover;
+    background-position: center;
+    min-height: 10vh;
+    min-width: 10vh;
+/*     
     font-size: 32px;
     color: black;
-    font-weight: 700;
+    font-weight: 700; */
 
 }
 

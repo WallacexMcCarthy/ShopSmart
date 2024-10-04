@@ -17,13 +17,12 @@ const HistoryPage = () => {
 
       if (snapshot.empty) {
         console.log("No documents found in metadata collection.");
-        return []; // Return an empty array if no documents are found
+        return []; 
       }
 
-      // Extract the productName field from each document and map it to an array
       const metadataNames = snapshot.docs.map(doc => doc.data().productName);
-      console.log("Fetched product names:", metadataNames); // Log the product names
-      setCollections(metadataNames);  // Set the array of names to state
+      console.log("Fetched product names:", metadataNames); 
+      setCollections(metadataNames); 
     } catch (error) {
       console.error("Error fetching metadata from Firestore: ", error);
     }
