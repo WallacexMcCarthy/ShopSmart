@@ -12,24 +12,6 @@ const HomePage = () => {
   const [pages,  setPages] = useState([])
   const [collections, setCollections] = useState([]);
 
-  const fetchMetadata = async () => {
-    try {
-      const metadataRef = collection(db, 'metadata');
-      const snapshot = await getDocs(metadataRef);
-
-      if (snapshot.empty) {
-        console.log("No documents found in metadata collection.");
-        return []; 
-      }
-
-      const metadataNames = snapshot.docs.map(doc => doc.data().productName);
-      console.log("Fetched product names:", metadataNames); 
-      setCollections(metadataNames); 
-    } catch (error) {
-      console.error("Error fetching metadata from Firestore: ", error);
-    }
-  };
-
   const saveDataToFirestore = async (products, productName) => {
     try {
       // Save products to the product-specific collection
