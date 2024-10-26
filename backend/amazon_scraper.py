@@ -1,54 +1,52 @@
 import requests
 from bs4 import BeautifulSoup
 
-class AmazonScraper:
+class AmazonScraper():
+    current_page = 1
+    product = ""
+    proceed = True
+    pages_to_search = 1
+    id = 0
+
     def __init__(self, product, pages_to_search):
-        self.product = product.replace(" ", "+")
+        self.product = product
         self.pages_to_search = pages_to_search
-        self.base_url = "https://www.amazon.com/s"
-        self.headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
-        }
+        # Amazon search URL format
+        self.url = f"https://www.amazon.com/s?k={self.product}&page={self.current_page}"
 
     def scrape(self):
-        return_products = []
-        
-        for page in range(1, self.pages_to_search + 1):
-            params = {
-                "k": self.product,
-                "page": page
-            }
-            response = requests.get(self.base_url, headers=self.headers, params=params)
-            print(f"Fetching page {page}: Status Code: {response.status_code}")  # Check status code
-            soup = BeautifulSoup(response.content, "html.parser")
-
-            # Check the response content
-            if response.status_code != 200:
-                print("Failed to retrieve the page.")
-                continue
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+        }
+        return_products = []      
+        while self.proceed:
+            page = requests.get(self.url, headers=headers)
+            soup = BeautifulSoup(page.text, "html.parser")
             
-            items = soup.find_all("div", {"data-component-type": "s-search-result"})
-            if not items:
-                print("No items found on the page.")
-                break
-            
-            for product in items:
-                product_details = {}
-                title_element = product.find("span", class_="a-size-medium a-color-base a-text-normal")
-                price_whole = product.find("span", class_="a-price-whole")
-                price_fraction = product.find("span", class_="a-price-fraction")
-                link = product.find("a", class_="a-link-normal s-no-outline")
+            # Check if the results page is valid
+            if soup.find("div", {"class": "s-main-slot"}):
+                item_list = soup.find_all("div", {"data-component-type": "s-search-result"})
+                
+                for product in item_list:
+                    product_details = {}
+                    title_elem = product.find("span", class_="a-size-medium a-color-base a-text-normal")
+                    price_elem = product.find("span", class_="a-price-whole")
+                    link_elem = product.find("a", class_="a-link-normal s-no-outline")
 
-                product_details['title'] = title_element.text if title_element else "N/A"
-                product_details['price'] = f"${price_whole.text}.{price_fraction.text}" if price_whole and price_fraction else "N/A"
-                product_details['link'] = f"https://www.amazon.com{link['href']}" if link else "N/A"
+                    if title_elem and price_elem and link_elem:
+                        product_details['id'] = self.id
+                        product_details['title'] = title_elem.text.strip()
+                        product_details['price'] = price_elem.text.strip()
+                        product_details['link'] = "https://www.amazon.com" + link_elem["href"]
+                        return_products.append(product_details)
+                        self.id += 1
+            else:
+                self.proceed = False
 
-                return_products.append(product_details)
+            if self.current_page >= self.pages_to_search:
+                self.proceed = False
+            else:
+                self.current_page += 1
+                self.url = f"https://www.amazon.com/s?k={self.product}&page={self.current_page}"
 
         return return_products
-
-if __name__ == "__main__":
-    scraper = AmazonScraper("laptop", 2)  # Search for "laptop" on 2 pages
-    results = scraper.scrape()
-    for product in results:
-        print(product)

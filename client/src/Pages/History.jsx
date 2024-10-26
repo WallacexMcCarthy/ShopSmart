@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import './index.css'
-import { db, coll } from './firebase'; 
+import { db, coll } from '../firebase'; 
 
 const HistoryPage = () => {
   const [collections, setCollections] = useState([]);

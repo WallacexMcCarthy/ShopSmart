@@ -1,21 +1,30 @@
-import React from 'react'
-import './Navbar.css'
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom'; // Use Link for navigation
+import './Navbar.css';
+import { useUser } from '../UserContext'; // Import your UserContext
 
 const Navbar = () => {
-    return(
+    const { setUser } = useUser(); // Access setUser from context
+    const navigate = useNavigate(); // Initialize navigate hook
+
+    const handleLogout = () => {
+        setUser(null); // Clear user state
+        navigate('/login'); // Redirect to login page
+    };
+
+    return (
         <header className="header">
-            <a href="/home" className="logo">
-            </a>
+            <a href="/home" className="logo"></a>
             <nav className="navbar">
-                <a href="/home">Home</a>
-                <a href="/history">History</a>
-                <a href="/">About Us</a>
-                <a href="/">Services</a>
-                <a href="/">Constact</a>
+                <Link to="/home">Home</Link>
+                <Link to="/history">History</Link>
+                <Link to="/">About Us</Link>
+                <Link to="/">Services</Link>
+                <Link to="/">Contact</Link>
+                <button onClick={handleLogout} className="logout-button">Logout</button> {/* Logout button */}
             </nav>
         </header>
-    )
+    );
+};
 
-}
-
-export default Navbar
+export default Navbar;

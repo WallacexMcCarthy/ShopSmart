@@ -1,11 +1,14 @@
 import React, {useState, useEffect} from 'react'
-import { db } from './firebase'; 
+import { db } from '../firebase'; 
 import { collection, addDoc, getDocs } from 'firebase/firestore'; 
 import './index.css'
+import { useUser } from '../UserContext'; // Import useUser to access user context
+
 
 
 
 const HomePage = () => {
+  const { user } = useUser(); // Get the user from context
   const [column, setColumns] = useState([])
   const [records, setRecords] = useState([])
   const [product, setProduct] = useState([])
@@ -70,6 +73,7 @@ const lookupProduct = async (e) => {
     return(
         <div className='home-container'>
           <form className='lookup-product' onSubmit={lookupProduct}>
+            <h1>Welcome {user ? user.email : 'Guest'}!</h1> {/* Display user's email if available */}
             <h2> Product Lookup </h2>
             <label htmlFor='product'>
               Lookup Product:
