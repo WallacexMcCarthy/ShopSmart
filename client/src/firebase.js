@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, setPersistence, browserLocalPersistence } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";  // Import Firestore and related functions
 
 // Your web app's Firebase configuration
@@ -42,6 +42,14 @@ const fetchCollectionNames = async () => {
 // Fetch collection names and store them in a constant
 const coll = await fetchCollectionNames(); // Wait for the names to be fetched
 console.log("Fetched collections:", coll);
+
+setPersistence(auth, browserLocalPersistence)
+  .then(() => {
+    // Successfully set persistence
+  })
+  .catch((error) => {
+    console.error("Error setting persistence: ", error);
+  });
 
 // Export authentication and Firestore instances
 export { auth, db, coll};
