@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebase'; 
-import { collection, addDoc, getDocs, doc, getDoc } from 'firebase/firestore'; 
+import { collection, addDoc, getDocs, doc, getDoc, deleteDoc } from 'firebase/firestore'; 
 import { auth } from '../firebase'; // Import auth
 import './index.css';
 
@@ -49,8 +49,20 @@ const HomePage = () => {
     }
   };
 
+  const clearCollection = async (collectionName) => {
+    const collectionRef = collection(db, collectionName);
+    const snapshot = await getDocs(collectionRef);
+
+    const deletePromises = snapshot.docs.map(doc => deleteDoc(doc.ref));
+    await Promise.all(deletePromises);
+    console.log(`Cleared collection: ${collectionName}`);
+  };
+
   const saveDataToFirestore = async (products, productName) => {
     try {
+      // Clear existing documents in the product-specific collection
+      await clearCollection(productName);
+
       // Save products to the product-specific collection
       const collectionRef = collection(db, productName);
       for (const product of products) {

@@ -56,16 +56,14 @@ const HistoryPage = () => {
   const handleSortChange = (e) => {
     const selectedOption = e.target.value;
     setSortOption(selectedOption);
-    sortProducts(selectedOption);
   };
 
   const convertPriceToNumber = (price) => {
-    // Ensure to convert the price string (removing $ and commas)
     return parseFloat(price.replace(/[$,]/g, '')); // Remove dollar sign and comma, then convert to number
   };
 
-  const sortProducts = (option) => {
-    let sortedProducts = [...productCollections];
+  const sortProducts = (products, option) => {
+    let sortedProducts = [...products];
 
     if (option === 'priceLowToHigh') {
       sortedProducts.sort((a, b) => convertPriceToNumber(a.price) - convertPriceToNumber(b.price));
@@ -77,7 +75,7 @@ const HistoryPage = () => {
       sortedProducts.sort((a, b) => b.title.localeCompare(a.title));
     }
 
-    setProductCollections(sortedProducts);
+    return sortedProducts;
   };
 
   useEffect(() => {
@@ -85,11 +83,9 @@ const HistoryPage = () => {
   }, []);
 
   useEffect(() => {
-    // Reapply sorting whenever product collections change
-    if (sortOption) {
-      sortProducts(sortOption);
-    }
-  }, [productCollections, sortOption]); // Depend on product collections and sort option
+    const sortedProducts = sortProducts(productCollections, sortOption);
+    setProductCollections(sortedProducts);
+  }, [sortOption, productCollections.length]); // Only depend on the length of productCollections
 
   return (
     <div className='history-container'>
