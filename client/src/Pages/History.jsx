@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import './index.css';
-import { db } from '../firebase'; 
+import { db } from '../firebase';
 
 const HistoryPage = () => {
   const [collections, setCollections] = useState([]);
@@ -16,12 +16,12 @@ const HistoryPage = () => {
 
       if (snapshot.empty) {
         console.log("No documents found in metadata collection.");
-        return []; 
+        return; 
       }
 
       const metadataNames = snapshot.docs.map(doc => doc.data().productName);
-      console.log("Fetched product names:", metadataNames); 
-      setCollections(metadataNames); 
+      console.log("Fetched product names:", metadataNames);
+      setCollections(metadataNames);
     } catch (error) {
       console.error("Error fetching metadata from Firestore: ", error);
     }
@@ -38,7 +38,7 @@ const HistoryPage = () => {
       }
       
       const products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      console.log(`Fetched products from ${productName}:`, products); // Log fetched products
+      console.log(`Fetched products from ${productName}:`, products);
       return products;
     } catch (error) {
       console.error("Error fetching products from Firestore: ", error);
@@ -50,6 +50,7 @@ const HistoryPage = () => {
     setSelectedCollection(collectionName);
     const products = await fetchProductsFromFirestore(collectionName);
     setProductCollections(products);
+    setSortOption(''); // Reset sort option when loading a new collection
   };
 
   const handleSortChange = (e) => {
@@ -59,12 +60,13 @@ const HistoryPage = () => {
   };
 
   const convertPriceToNumber = (price) => {
+    // Ensure to convert the price string (removing $ and commas)
     return parseFloat(price.replace(/[$,]/g, '')); // Remove dollar sign and comma, then convert to number
   };
 
   const sortProducts = (option) => {
     let sortedProducts = [...productCollections];
-    
+
     if (option === 'priceLowToHigh') {
       sortedProducts.sort((a, b) => convertPriceToNumber(a.price) - convertPriceToNumber(b.price));
     } else if (option === 'priceHighToLow') {
@@ -81,6 +83,13 @@ const HistoryPage = () => {
   useEffect(() => {
     fetchMetadata();
   }, []);
+
+  useEffect(() => {
+    // Reapply sorting whenever product collections change
+    if (sortOption) {
+      sortProducts(sortOption);
+    }
+  }, [productCollections, sortOption]); // Depend on product collections and sort option
 
   return (
     <div className='history-container'>
