@@ -7,7 +7,7 @@ from macys_scraper import MacysScraper
 
 app = Flask(__name__)
 
-CORS(app)
+CORS(app, resources={r"/ebay": {"origins": "https://shopssmart.netlify.app"}})
 
 
 @app.route('/')
