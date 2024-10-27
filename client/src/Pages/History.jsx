@@ -1,16 +1,14 @@
-// src/HistoryPage.jsx
-
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
-import './index.css'
-import { db, coll } from '../firebase'; 
+import './index.css';
+import { db } from '../firebase'; 
 
 const HistoryPage = () => {
   const [collections, setCollections] = useState([]);
   const [selectedCollection, setSelectedCollection] = useState(null);
   const [productCollections, setProductCollections] = useState([]);
+  const [sortOption, setSortOption] = useState('');
 
-  
   const fetchMetadata = async () => {
     try {
       const metadataRef = collection(db, 'metadata');
@@ -54,6 +52,32 @@ const HistoryPage = () => {
     setProductCollections(products);
   };
 
+  const handleSortChange = (e) => {
+    const selectedOption = e.target.value;
+    setSortOption(selectedOption);
+    sortProducts(selectedOption);
+  };
+
+  const convertPriceToNumber = (price) => {
+    return parseFloat(price.replace(/[$,]/g, '')); // Remove dollar sign and comma, then convert to number
+  };
+
+  const sortProducts = (option) => {
+    let sortedProducts = [...productCollections];
+    
+    if (option === 'priceLowToHigh') {
+      sortedProducts.sort((a, b) => convertPriceToNumber(a.price) - convertPriceToNumber(b.price));
+    } else if (option === 'priceHighToLow') {
+      sortedProducts.sort((a, b) => convertPriceToNumber(b.price) - convertPriceToNumber(a.price));
+    } else if (option === 'aToZ') {
+      sortedProducts.sort((a, b) => a.title.localeCompare(b.title));
+    } else if (option === 'zToA') {
+      sortedProducts.sort((a, b) => b.title.localeCompare(a.title));
+    }
+
+    setProductCollections(sortedProducts);
+  };
+
   useEffect(() => {
     fetchMetadata();
   }, []);
@@ -63,7 +87,7 @@ const HistoryPage = () => {
       <h2>Available Collections</h2>
       <ul className='collection-buttons'>
         {collections.map((collectionName) => (
-          <button onClick={() => handleCollectionClick(collectionName)}>
+          <button onClick={() => handleCollectionClick(collectionName)} key={collectionName}>
             {collectionName}
           </button>
         ))}
@@ -72,11 +96,19 @@ const HistoryPage = () => {
       {selectedCollection && (
         <>
           <h2>Products for {selectedCollection}</h2>
+          <label htmlFor="sort">Sort by:</label>
+          <select id="sort" value={sortOption} onChange={handleSortChange}>
+            <option value="">Select</option>
+            <option value="priceLowToHigh">Price: Low to High</option>
+            <option value="priceHighToLow">Price: High to Low</option>
+            <option value="aToZ">Title: A to Z</option>
+            <option value="zToA">Title: Z to A</option>
+          </select>
+
           {productCollections.length > 0 ? (
             <table className='display_products'>
               <thead>
                 <tr>
-                  <th>ID</th>
                   <th>Title</th>
                   <th>Price</th>
                   <th>Link</th>
@@ -85,7 +117,6 @@ const HistoryPage = () => {
               <tbody>
                 {productCollections.map((product) => (
                   <tr key={product.id}>
-                    <td>{product.id}</td>
                     <td>{product.title}</td>
                     <td>{product.price}</td>
                     <td>
