@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory, jsonify, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 from ebay_scraper import EbayScraper
 from amazon_scraper import AmazonScraper
@@ -8,16 +8,6 @@ from macys_scraper import MacysScraper
 app = Flask(__name__)
 
 CORS(app)
-
-
-@app.route('/')
-def index():
-    return send_from_directory(app.static_folder, 'index.html')
-
-# Serve other static files
-@app.route('/<path:path>')
-def serve_static_files(path):
-    return send_from_directory(app.static_folder, path)
 
 @app.route("/ebay", methods=['GET', 'POST'])
 def get_ebay_products():
