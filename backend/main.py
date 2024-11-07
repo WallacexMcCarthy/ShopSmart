@@ -7,13 +7,11 @@ from macys_scraper import MacysScraper
 
 app = Flask(__name__)
 
-CORS(app)
-
 # Enable CORS for the specified origin (your Netlify site)
-# CORS(app, resources={r"/ebay": {"origins": "https://shopssmart.netlify.app"}})
-# CORS(app, resources={r"/amazon": {"origins": "https://shopssmart.netlify.app"}})
-# CORS(app, resources={r"/target": {"origins": "https://shopssmart.netlify.app"}})
-# CORS(app, resources={r"/macys": {"origins": "https://shopssmart.netlify.app"}})
+CORS(app, resources={r"/ebay": {"origins": "https://shopssmart.netlify.app"}})
+CORS(app, resources={r"/amazon": {"origins": "https://shopssmart.netlify.app"}})
+CORS(app, resources={r"/target": {"origins": "https://shopssmart.netlify.app"}})
+CORS(app, resources={r"/macys": {"origins": "https://shopssmart.netlify.app"}})
 
 @app.route('/')
 def index():

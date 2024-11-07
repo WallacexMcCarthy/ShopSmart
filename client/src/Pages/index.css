@@ -1,19 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-* {
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
 }
 
-body {
-    background: url('../assets/cool_background.jpeg') no-repeat center center;
+body{
+    background: url('../assets/cool_background.jpeg') no-repeat;
     background-size: cover;
-    min-height: 100vh;  /* Ensure the body covers the viewport height */
+    background-position: center;
+    min-height: 100vh;
     padding: 40px;
-    /* overflow: hidden;    Prevent scrolling */
 }
+
 /* Styling for History Page */
 
 .history-container{
@@ -40,77 +41,112 @@ body {
 
 }
 
+/* Styling for Signup and Login*/
 .login-container {
   display: flex;
-  height: 100vh;
-}
-
-.auth-section {
-  flex: 1;
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-}
-
-.form-container {
-  flex: 1;
-  padding: 50px;
-}
-
-.login-form, .signup-form {
-  display: flex;
-  flex-direction: column;
-}
-
-.login-form h2, .signup-form h2 {
-  margin-bottom: 20px;
-}
-
-button {
-  margin-top: 20px;
-  padding: 10px;
-  font-size: 16px;
-  border: none;
-  background-color: #4CAF50;
-  color: white;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #45a049;
-}
-
-.info-section {
-  width: 40%;
-  background: linear-gradient(to right, #00c6ff, #0072ff);
-  color: white;
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: 100vh; /* Full height of the viewport */
+  background-color: transparent; /* Light gray background */
+}
+
+.login-form {
+  background: white; /* White background for the form */
   padding: 20px;
-  text-align: center;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  width: 300px; /* Fixed width for the form */
 }
 
-.info-section h3 {
-  font-size: 24px;
-  margin-bottom: 10px;
+.login-form h2 {
+  margin-bottom: 20px; /* Space below the heading */
+  text-align: center; /* Center align the heading */
 }
 
-.error-message {
-  color: red;
-  font-size: 14px;
-  margin-top: 10px;
+.login-form label {
+  display: block; /* Make labels block elements */
+  margin-bottom: 10px; /* Space below labels */
 }
-.logo {
-  background: url('./ShopSmartLogo.png') no-repeat center;
-  background-size: contain; /* Ensures the image scales within the div */
-  width: 50px;
-  height: 50px; /* Set height to match width */
-  position: absolute; /* Position it at the top-left */
-  top: 20px;
-  left: 20px;
+
+.login-form input {
+  width: 100%; /* Full width input */
+  padding: 10px; /* Padding inside the input */
+  margin-bottom: 20px; /* Space below inputs */
+  border: 1px solid #ccc; /* Light gray border */
+  border-radius: 3px; /* Slightly rounded corners */
 }
+
+.login-form button {
+  width: 100%; /* Full width button */
+  padding: 10px; /* Padding inside the button */
+  background-color: #007bff; /* Bootstrap primary color */
+  color: white; /* White text */
+  border: none; /* Remove border */
+  border-radius: 3px; /* Slightly rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+}
+
+.login-form button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+.login-form p {
+  text-align: center; /* Center align the paragraph */
+}
+
+.login-form p a {
+  color: #007bff; /* Link color */
+  text-decoration: none; /* Remove underline from links */
+}
+
+.login-form p a:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+
+.signup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: transparent;
+}
+.signup-form {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+.signup-form h2{
+    color: #333
+}
+.signup-form label{
+    display: block;
+    margin: 10px 0;
+}
+.signup-form input{
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.signup-form button{
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.signup-form button:hover{
+    background-color: #27ae60;
+}
+
 /* home page styling */
 .home-container {
     max-width: 800px; /* Maximum width of the container */

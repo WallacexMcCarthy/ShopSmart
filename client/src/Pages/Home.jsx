@@ -94,7 +94,7 @@ const HomePage = () => {
     try {
       console.log('Fetching from /ebay');
 
-      const res = await fetch('http://localhost:5000/ebay', {
+      const res = await fetch('https://shopsmart-e0gg.onrender.com/ebay', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ product, pages }),
