@@ -6,9 +6,7 @@ Flask-Migrate==4.0.4
 psycopg2-binary==2.9.6   # PostgreSQL adapter (only if using PostgreSQL)
 pymysql==1.0.3           # MySQL adapter (only if using MySQL)
 python-dotenv==1.0.0
-requests==2.31.0  # You can replace this with the latest version
-beautifulsoup4==4.12.0  # You can replace this with the latest version
-
+requests==2.31.0  # Replace with the latest version if needed
 
 # Remove or adjust PyQt5-Qt5 if it’s not necessary for your Flask app
 # PyQt5-Qt5==5.15.13
